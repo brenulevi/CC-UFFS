@@ -16,14 +16,7 @@
 
 #define MEMORY_LIMIT 5
 
-// Auxiliary Functions
-
-void externalOrder(int *sortedVec, int *originalVec, int vecLen);
-void printVec(int *vec, int vecLen);
-
-// File Functions
-
-FILE** createFile(char *type);
+FILE **createFile(char *type);
 void closeFile(FILE *file);
 
 int main()
@@ -31,47 +24,56 @@ int main()
     int vec[] = {30, 21, 43, 3, 9, 82, 15};
     int vecLen = sizeof(vec) / sizeof(int);
 
-    int sortedVec[vecLen];
+    FILE **inputFiles;
 
-    externalOrder(sortedVec, vec, vecLen);
+    // creating input files
+    inputFiles = createFile("input");
+
+    // sorting and writing in respective input file
+    int k = 0;
+    for (int i = 0; i < MEMORY_LIMIT; i++)
+    {
+        // sort
+        for (int j = 0; j < MEMORY_LIMIT && k < vecLen; j++)
+        {
+        }
+
+        // writing
+        for (int j = 0; j < MEMORY_LIMIT && k < vecLen; j++)
+        {
+            fprintf(inputFiles[i], "%d", vec[k]);
+            if (j < MEMORY_LIMIT - 1 && k < vecLen - 1)
+                fprintf(inputFiles[i], ",");
+        }
+    }
+
+    for (int i = 0; i < MEMORY_LIMIT; i++)
+    {
+        fclose(inputFiles[i]);
+    }
 
     return 0;
 }
 
-void externalOrder(int *sortedVec, int *originalVec, int vecLen)
+FILE **createFile(char *type)
 {
-    FILE **inputFiles;
-    // create inputs files
-    inputFiles = createFile("input");
-    // distribute values in input files ordenered
-
-    for(int i = 0; i < MEMORY_LIMIT; i++)
-    {
-        printf("%c\n",fgetc(inputFiles[i]));
-    }
-
-
-
-    // create output files
-    // distribute values in output files comparing first values in input files
-    // read output files
-}
-
-FILE** createFile(char *type)
-{
-    FILE** files = malloc(MEMORY_LIMIT * sizeof(FILE*));
+    FILE **files = malloc(MEMORY_LIMIT * sizeof(FILE *));
     for (int i = 0; i < MEMORY_LIMIT; i++)
     {
-        char directory[20];
-        sprintf(directory, "./bin/%ss/%s%d%s", type, type, i, ".txt");
+        char directory[30];
+        sprintf(directory, ".\\bin\\%ss\\%s%d%s", type, type, i, ".txt");
         files[i] = fopen(directory, "r+");
+        if (files[i] == NULL)
+        {
+            printf("Error to open file.");
+            exit(1);
+        }
     }
     return files;
 }
 
-// printf("File number: %d\n", i);
-    //     for (int j = 0; j < MEMORY_LIMIT && k < 7; j++)
-    //     {
-    //         printf("%d ", originalVec[k++]);
-    //     }
-    //     printf("\n");
+//     for (int j = 0; j < MEMORY_LIMIT && k < 7; j++)
+//     {
+//         printf("%d ", originalVec[k++]);
+//     }
+//     printf("\n");

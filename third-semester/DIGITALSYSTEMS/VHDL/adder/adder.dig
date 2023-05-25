@@ -28,7 +28,7 @@
         </entry>
         <entry>
           <string>CodeFile</string>
-          <file>/home/aluno/Documentos/bs/CC-UFFS/third-semester/DIGITALSYSTEMS/VHDL/adder/adder.vhdl</file>
+          <file>\home\aluno\Documentos\bs\CC-UFFS\third-semester\DIGITALSYSTEMS\VHDL\adder\adder.vhdl</file>
         </entry>
       </elementAttributes>
       <pos x="380" y="160"/>
@@ -82,7 +82,7 @@
         </entry>
         <entry>
           <string>intFormat</string>
-          <intFormat>dec</intFormat>
+          <intFormat>bin</intFormat>
         </entry>
       </elementAttributes>
       <pos x="660" y="240"/>
