@@ -4,6 +4,7 @@
  */
 package registerMovie;
 
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,11 +31,11 @@ public class registerWindow extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
+        originalTitleLabel = new javax.swing.JLabel();
         edtTitle = new javax.swing.JTextField();
         edtOriginalTitle = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        synopsisLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         edtSynopsis = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
@@ -47,14 +48,14 @@ public class registerWindow extends javax.swing.JFrame {
         rb18 = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
+        cbAction = new javax.swing.JCheckBox();
+        cbAdventure = new javax.swing.JCheckBox();
+        cbComedy = new javax.swing.JCheckBox();
+        cbDrama = new javax.swing.JCheckBox();
+        cbSuspense = new javax.swing.JCheckBox();
+        cbHorror = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        ccCountry = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
 
@@ -64,9 +65,9 @@ public class registerWindow extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic Informations"));
 
-        jLabel1.setText("Title");
+        titleLabel.setText("Title");
 
-        jLabel2.setText("Original title");
+        originalTitleLabel.setText("Original title");
 
         edtTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,7 +75,7 @@ public class registerWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Synopsis");
+        synopsisLabel.setText("Synopsis");
 
         edtSynopsis.setColumns(20);
         edtSynopsis.setRows(5);
@@ -83,11 +84,12 @@ public class registerWindow extends javax.swing.JFrame {
 
         jLabel4.setText("Duration");
 
-        jLabel5.setText("minutos");
+        jLabel5.setText("minutes");
 
         jLabel6.setText("Classification");
 
         buttonGroup1.add(rbFree);
+        rbFree.setSelected(true);
         rbFree.setText("Free");
 
         buttonGroup1.add(rb14);
@@ -126,14 +128,14 @@ public class registerWindow extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(rb18))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
+                            .addComponent(synopsisLabel)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
+                                    .addComponent(titleLabel)
                                     .addComponent(edtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
+                                    .addComponent(originalTitleLabel)
                                     .addComponent(edtOriginalTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(42, 42, 42))))
         );
@@ -141,14 +143,14 @@ public class registerWindow extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(titleLabel)
+                    .addComponent(originalTitleLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(edtOriginalTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(synopsisLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -170,21 +172,21 @@ public class registerWindow extends javax.swing.JFrame {
 
         jLabel8.setText("Genre");
 
-        jCheckBox1.setText("Action");
+        cbAction.setText("Action");
 
-        jCheckBox2.setText("Adventure");
+        cbAdventure.setText("Adventure");
 
-        jCheckBox3.setText("Comedy");
+        cbComedy.setText("Comedy");
 
-        jCheckBox4.setText("Drama");
+        cbDrama.setText("Drama");
 
-        jCheckBox5.setText("Suspense");
+        cbSuspense.setText("Suspense");
 
-        jCheckBox6.setText("Horror");
+        cbHorror.setText("Horror");
 
         jLabel9.setText("Origin Country");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "England", "Brazil", "United States", "Canada" }));
+        ccCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "England", "Brazil", "United States", "Canada" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -198,18 +200,18 @@ public class registerWindow extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
+                                .addComponent(cbAction)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox2)
+                                .addComponent(cbAdventure)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox3))
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cbComedy))
+                            .addComponent(ccCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox4)
+                        .addComponent(cbDrama)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox5)
+                        .addComponent(cbSuspense)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox6)))
+                        .addComponent(cbHorror)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -218,16 +220,16 @@ public class registerWindow extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6))
+                    .addComponent(cbAction)
+                    .addComponent(cbAdventure)
+                    .addComponent(cbComedy)
+                    .addComponent(cbDrama)
+                    .addComponent(cbSuspense)
+                    .addComponent(cbHorror))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ccCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 19, Short.MAX_VALUE))
         );
 
@@ -284,8 +286,50 @@ public class registerWindow extends javax.swing.JFrame {
         String title = edtTitle.getText();
         String originalTitle = edtOriginalTitle.getText();
         String synopsis = edtSynopsis.getText();
+        int duration = Integer.parseInt(edtDuration.getText());
+        int classification;
         
-        String msg = title + " | " + originalTitle + " | " + synopsis;
+        if(rbFree.isSelected())
+            classification = 0;
+        else if(rb14.isSelected())
+            classification = 1;
+        else if(rb16.isSelected())
+            classification = 2;
+        else
+            classification = 3;
+        
+        JCheckBox cbs[] = new JCheckBox[6];
+        cbs[0] = cbAction;
+        cbs[1] = cbAdventure;
+        cbs[2] = cbComedy;
+        cbs[3] = cbDrama;
+        cbs[4] = cbHorror;
+        cbs[5] = cbSuspense;
+        
+        String genre = "";
+        
+        if(cbAction.isSelected())
+            genre += "Action ";
+        if(cbAdventure.isSelected())
+            genre += "Adventure ";
+        if(cbComedy.isSelected())
+            genre += "Comedy ";
+        if(cbDrama.isSelected())
+            genre += "Drama ";
+        if(cbHorror.isSelected())
+            genre += "Horror ";
+        if(cbSuspense.isSelected())
+            genre += "Suspense ";
+        
+        String country = (String) ccCountry.getSelectedItem();
+        
+        String msg = "Title: " + title + "\n";
+        msg += "Original Title: " + originalTitle + "\n";
+        msg += "Synopsis: " + synopsis + "\n";
+        msg += "Duration: " + duration + "\n";
+        msg += "Classification: " + classification + "\n";
+        msg += "Genres: " + genre + "\n";
+        msg += "Country: " + country + "\n";
         
         JOptionPane.showMessageDialog(null, msg);
     }//GEN-LAST:event_btnRegisterActionPerformed
@@ -318,20 +362,17 @@ public class registerWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnRegister;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox cbAction;
+    private javax.swing.JCheckBox cbAdventure;
+    private javax.swing.JCheckBox cbComedy;
+    private javax.swing.JCheckBox cbDrama;
+    private javax.swing.JCheckBox cbHorror;
+    private javax.swing.JCheckBox cbSuspense;
+    private javax.swing.JComboBox<String> ccCountry;
     private javax.swing.JTextField edtDuration;
     private javax.swing.JTextField edtOriginalTitle;
     private javax.swing.JTextArea edtSynopsis;
     private javax.swing.JTextField edtTitle;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -340,9 +381,12 @@ public class registerWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel originalTitleLabel;
     private javax.swing.JRadioButton rb14;
     private javax.swing.JRadioButton rb16;
     private javax.swing.JRadioButton rb18;
     private javax.swing.JRadioButton rbFree;
+    private javax.swing.JLabel synopsisLabel;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
