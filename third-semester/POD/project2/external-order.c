@@ -41,20 +41,22 @@ int main()
     // merge();
     for (int k = 0; k < outputCount; k++)
     {
-        int arr[MEMORY_LIMIT];
+        int matrix[MEMORY_LIMIT][MEMORY_LIMIT];
         for (int i = 0; i < MEMORY_LIMIT; i++)
         {
             if (k == 0)
                 rewind(inputFiles[i]);
 
-            int n = __INT32_MAX__;
-            fscanf(inputFiles[i], "%d,", &n);
-            arr[i] = n;
-            printf("%d ", arr[i]);
+            for (int j = 0; j < MEMORY_LIMIT; j++)
+            {
+                int n = __INT32_MAX__;
+                fscanf(inputFiles[i], "%d,", &n);
+                matrix[i][j] = n;
+            }
+
             fseek(inputFiles[i], 1, SEEK_CUR);
         }
         printf("\n");
-
     }
 
     closeFiles(inputFiles);
