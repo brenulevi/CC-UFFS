@@ -23,14 +23,14 @@
 #define PLATFORM "linux"
 #endif
 
-void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, int tradeFlag, int *outputCount);
+void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, int tradeFlag);
 FILE **openFiles(char *type);
 void closeFiles(FILE **fileArray);
 void sort(int *arr);
 void split(int *arr, FILE **files, int *vecIndex, int vecLen);
 int lowest(int *arr);
 int hasNumber(int *arr);
-void invertFiles(FILE **outputFile, FILE **inputFIle);
+void invertFiles(FILE **outputFile, FILE **inputFile);
 
 int main()
 {
@@ -41,20 +41,15 @@ int main()
     FILE **outputFiles = openFiles("output");
 
     int tradeNumber = ((int)ceil(sqrt(vecLen))) % MEMORY_LIMIT;
-    int outputCount = tradeNumber + 1;
     int trades = 0;
-    do
-    {
-        externalSort(inputFiles, outputFiles, vec, vecLen, trades, &outputCount);
 
-        invertFiles(outputFiles, inputFiles);
-
-        trades++;
-
-        printf("%d %d", trades, tradeNumber);
-    } while (trades <= tradeNumber);
+    externalSort(inputFiles, outputFiles, vec, vecLen, trades);
+    trades++;
+    invertFiles(outputFiles, inputFiles);
+    externalSort(inputFiles, outputFiles, vec, vecLen, trades);
 
     closeFiles(inputFiles);
+    closeFiles(outputFiles);
 
     return 0;
 }
@@ -168,16 +163,23 @@ int hasNumber(int *arr)
     return flag;
 }
 
-void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, int tradeFlag, int *outputCount)
+void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, int tradeFlag)
 {
+    int outputCount = 0;
     int j = 0;
-    while (j < vecLen)
+    printf("%d\n", tradeFlag);
+    if (tradeFlag == 0)
     {
-        if (tradeFlag == 0)
+        while (j < vecLen)
+        {
             split(vec, inputFiles, &j, vecLen);
+            outputCount++;
+        }
     }
+    else
+        outputCount = 1;
 
-    for (int k = 0; k < *outputCount; k++)
+    for (int k = 0; k < outputCount; k++)
     {
         int arr[MEMORY_LIMIT];
         for (int i = 0; i < MEMORY_LIMIT; i++)
@@ -186,7 +188,9 @@ void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, i
                 fseek(inputFiles[i], 1, SEEK_SET);
 
             fscanf(inputFiles[i], "%d,", &arr[i]);
+            printf("%d ", arr[i]);
         }
+        printf("\n");
         while (hasNumber(arr) == 1)
         {
             int lowestIndex = lowest(arr);
@@ -201,12 +205,10 @@ void externalSort(FILE **inputFiles, FILE **outputFiles, int *vec, int vecLen, i
         }
     }
 
-    for (int i = 0; i < *outputCount; i++)
+    for (int i = 0; i < outputCount; i++)
     {
         fprintf(outputFiles[i], ",");
     }
-
-    *outputCount = 1;
 }
 
 void invertFiles(FILE **outputFiles, FILE **inputFiles)
@@ -223,7 +225,7 @@ void invertFiles(FILE **outputFiles, FILE **inputFiles)
         else
             sprintf(directory, ".\\bin\\inputs\\input%d%s", i, ".txt");
 
-        inputFiles[i] = freopen(directory, "w", inputFiles[i]);
+        fclose(fopen(directory, "w"));
 
         char c;
         while ((c = fgetc(outputFiles[i])) != EOF)
@@ -236,7 +238,12 @@ void invertFiles(FILE **outputFiles, FILE **inputFiles)
         else
             sprintf(directory, ".\\bin\\outputs\\output%d%s", i, ".txt");
 
-        outputFiles[i] = freopen(directory, "w", outputFiles[i]);
+        fclose(fopen(directory, "w"));
 
+        inputFiles[i] = fopen(directory, "w+");
+        outputFiles[i] = fopen(directory, "w+");
+
+        rewind(inputFiles[i]);
+        rewind(outputFiles[i]);
     }
 }
