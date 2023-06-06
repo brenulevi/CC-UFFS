@@ -16,41 +16,60 @@
 
 #define MEMORY_LIMIT 5
 
-FILE **createFiles(char *type);
+FILE **openFiles(char *type);
 void closeFiles(FILE **fileArray);
-
-void test(int* vec, FILE** files, int* vecIndex, int vecLen);
-
 void sort(int *arr);
+void split(int *arr, FILE **files, int *vecIndex, int vecLen);
+void merge();
 
 int main()
 {
     int vec[] = {30, 21, 43, 3, 9, 82, 15, 23, -2, 0, -96, 4, 50, -9, 22, 99, 1002, 10, 40, 76, 77, 70, -70, -87, -90, -99, 21, -1, 1};
     int vecLen = sizeof(vec) / sizeof(int);
 
-    FILE **inputFiles = createFiles("input");
+    FILE **inputFiles = openFiles("input");
+    FILE **outputFiles = openFiles("output");
 
     int j = 0;
-    
-    while(j < vecLen)
-        test(vec, inputFiles, &j, vecLen);
-
-    for (int i = 0; i < MEMORY_LIMIT; i++)
+    int outputCount = 0;
+    while (j < vecLen)
     {
-        fclose(inputFiles[i]);
+        split(vec, inputFiles, &j, vecLen);
+        outputCount++;
     }
+
+    // merge();
+    for (int k = 0; k < outputCount; k++)
+    {
+        int arr[MEMORY_LIMIT];
+        for (int i = 0; i < MEMORY_LIMIT; i++)
+        {
+            if (k == 0)
+                rewind(inputFiles[i]);
+
+            int n = __INT32_MAX__;
+            fscanf(inputFiles[i], "%d,", &n);
+            arr[i] = n;
+            printf("%d ", arr[i]);
+            fseek(inputFiles[i], 1, SEEK_CUR);
+        }
+        printf("\n");
+
+    }
+
+    closeFiles(inputFiles);
 
     return 0;
 }
 
-FILE **createFiles(char *type)
+FILE **openFiles(char *type)
 {
     FILE **files = malloc(MEMORY_LIMIT * sizeof(FILE *));
     for (int i = 0; i < MEMORY_LIMIT; i++)
     {
         char directory[30];
-        sprintf(directory, "./bin/%ss/%s%d%s", type, type, i, ".txt");
-        files[i] = fopen(directory, "r+");
+        sprintf(directory, ".\\bin\\%ss\\%s%d%s", type, type, i, ".txt");
+        files[i] = fopen(directory, "w+");
         if (files[i] == NULL)
         {
             printf("Error to open file.");
@@ -85,28 +104,45 @@ void sort(int *arr)
     }
 }
 
-void test(int* vec, FILE** files, int* vecIndex, int vecLen)
+void split(int *arr, FILE **files, int *vecIndex, int vecLen)
 {
+    // for any file
     for (int nFile = 0; nFile < MEMORY_LIMIT; nFile++)
     {
+        // create an array with 5 elements from super array
         int nArray[MEMORY_LIMIT] = {0};
+        int arrLen = 0;
         for (int i = 0; i < MEMORY_LIMIT; i++)
         {
-            nArray[i] = (*vecIndex < vecLen) ? vec[(*vecIndex)++] : __INT32_MAX__;
+            if (*vecIndex < vecLen)
+            {
+                nArray[i] = arr[(*vecIndex)++];
+                arrLen++;
+            }
+            else
+                nArray[i] = __INT32_MAX__;
         }
 
+        // sort it
         sort(nArray);
 
-        for(int i = 0; i < MEMORY_LIMIT; i++)
+        // write in file
+        for (int i = 0; i < arrLen; i++)
         {
-            if(nArray[i] == __INT32_MAX__)
+            if (nArray[i] == __INT32_MAX__)
                 break;
 
-            if(i == MEMORY_LIMIT-1)
+            if (i == arrLen - 1)
             {
                 fprintf(files[nFile], "%d ", nArray[i]);
                 continue;
-            } else fprintf(files[nFile], "%d,", nArray[i]);
+            }
+            else
+                fprintf(files[nFile], "%d,", nArray[i]);
         }
     }
+}
+
+void merge()
+{
 }
