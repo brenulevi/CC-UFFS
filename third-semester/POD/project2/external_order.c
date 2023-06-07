@@ -1,3 +1,13 @@
+/**
+ * 
+ * @author Breno Soares Alves
+ * @date 07/06/2023
+ * @brief Mode: Array initialization. The user must change the "vec" array in main function and run the program to get
+ * a print of sorted array.
+ * 
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
