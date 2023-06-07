@@ -11,14 +11,13 @@
 #define PLATFORM "linux"
 #endif
 
-void merge(FILE **inputFiles, FILE **outputFiles, int outputCount);
 void sort(int *arr);
 int lowest(int *arr);
 int hasNumber(int *arr);
 
 int main()
 {
-    int vec[] = {30, 21, 43, 3, 9, 82, 15, 23, -2, 0, -96, 4, 50, -9, 22, 99, 1002, 10, 40, 76, 77, 70, -70, -87, -90, -99, 21, -1, 1};
+    int vec[] = {30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0};
     int vecLen = sizeof(vec) / sizeof(int);
 
     FILE *inputFiles[MEMORY_LIMIT];
@@ -90,23 +89,6 @@ int main()
     // Merge all input files in output file
     int outputCount = ((int)ceil(sqrt(vecLen)) % 5) + 1;
 
-    merge(inputFiles, outputFiles, outputCount);
-
-    outputCount--;
-
-    for (int i = 0; i < MEMORY_LIMIT; i++)
-    {
-        rewind(inputFiles[i]);
-        rewind(outputFiles[i]);
-    }
-
-    merge(outputFiles, inputFiles, outputCount);
-
-    return 0;
-}
-
-void merge(FILE **inputFiles, FILE **outputFiles, int outputCount)
-{
     for (int k = 0; k < outputCount; k++)
     {
         int arr[MEMORY_LIMIT];
@@ -135,6 +117,70 @@ void merge(FILE **inputFiles, FILE **outputFiles, int outputCount)
     {
         fprintf(outputFiles[i], ",");
     }
+
+    outputCount--;
+
+    for (int i = 0; i < MEMORY_LIMIT; i++)
+    {
+        rewind(inputFiles[i]);
+        rewind(outputFiles[i]);
+    }
+
+    for (int k = 0; k < outputCount; k++)
+    {
+        int arr[MEMORY_LIMIT];
+        for (int i = 0; i < MEMORY_LIMIT; i++)
+        {
+            arr[i] = __INT32_MAX__;
+        }
+        for (int i = 0; i < MEMORY_LIMIT; i++)
+        {
+            fseek(outputFiles[i], 1, SEEK_SET);
+            fscanf(outputFiles[i], "%d,", &arr[i]);
+        }
+        while (hasNumber(arr) == 1)
+        {
+            int lowestIndex = lowest(arr);
+            fprintf(inputFiles[k], ",%d", arr[lowestIndex]);
+            int n;
+            arr[lowestIndex] = (fscanf(outputFiles[lowestIndex], "%d,", &n) == 1) ? n : __INT32_MAX__;
+        }
+
+        for (int i = 0; i < MEMORY_LIMIT; i++)
+        {
+            fseek(outputFiles[i], 1, SEEK_CUR);
+        }
+    }
+
+    for (int i = 0; i < outputCount; i++)
+    {
+        fprintf(inputFiles[i], ",");
+    }
+
+    // Get final array in input0.txt
+    int farr[vecLen];
+    int farrActualLen = 0;
+
+    fseek(inputFiles[0], 1, SEEK_SET);
+
+    while(farrActualLen < vecLen)
+    {
+        fscanf(inputFiles[0], "%d,", &farr[farrActualLen++]);
+    }
+
+    printf("Initial array:\n");
+    for(int i = 0; i < vecLen; i++)
+    {
+        printf("%d ", vec[i]);
+    }
+    printf("\nSorted array:\n");
+    for(int i = 0; i < vecLen; i++)
+    {
+        printf("%d ", farr[i]);
+    }
+    printf("\n");
+
+    return 0;
 }
 
 void sort(int *arr)
