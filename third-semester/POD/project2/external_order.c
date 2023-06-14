@@ -73,7 +73,7 @@ int main()
                     arrActualLen++;
                 }
                 else
-                    arr[j] = __INT32_MAX__;
+                    arr[j] = INT_MAX;
             }
 
             // sort it
@@ -82,7 +82,7 @@ int main()
             // write in file
             for (int j = 0; j < arrActualLen; j++)
             {
-                if (arr[j] == __INT32_MAX__)
+                if (arr[j] == INT_MAX)
                     break;
 
                 if (j == arrActualLen - 1)
@@ -114,7 +114,7 @@ int main()
             int lowestIndex = lowest(arr);
             fprintf(outputFiles[k], ",%d", arr[lowestIndex]);
             int n;
-            arr[lowestIndex] = (fscanf(inputFiles[lowestIndex], "%d,", &n) == 1) ? n : __INT32_MAX__;
+            arr[lowestIndex] = (fscanf(inputFiles[lowestIndex], "%d,", &n) == 1) ? n : INT_MAX;
         }
 
         for (int i = 0; i < MEMORY_LIMIT; i++)
@@ -141,7 +141,7 @@ int main()
         int arr[MEMORY_LIMIT];
         for (int i = 0; i < MEMORY_LIMIT; i++)
         {
-            arr[i] = __INT32_MAX__;
+            arr[i] = INT_MAX;
         }
         for (int i = 0; i < MEMORY_LIMIT; i++)
         {
@@ -153,7 +153,7 @@ int main()
             int lowestIndex = lowest(arr);
             fprintf(inputFiles[k], ",%d", arr[lowestIndex]);
             int n;
-            arr[lowestIndex] = (fscanf(outputFiles[lowestIndex], "%d,", &n) == 1) ? n : __INT32_MAX__;
+            arr[lowestIndex] = (fscanf(outputFiles[lowestIndex], "%d,", &n) == 1) ? n : INT_MAX;
         }
 
         for (int i = 0; i < MEMORY_LIMIT; i++)
@@ -227,7 +227,7 @@ int hasNumber(int *arr)
     int flag = 0;
     for (int i = 0; i < MEMORY_LIMIT; i++)
     {
-        if (arr[i] != __INT32_MAX__)
+        if (arr[i] != INT_MAX)
             return 1;
     }
     return flag;
