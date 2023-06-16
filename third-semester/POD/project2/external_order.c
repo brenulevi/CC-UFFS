@@ -5,6 +5,8 @@
  * @brief Mode: Array initialization. The user must change the "vec" array in main function and run the program to get
  * a print of sorted array.
  * 
+ * @attention TO COMPILE THE CODE USE -lm FLAG!!!
+ * 
 */
 
 
