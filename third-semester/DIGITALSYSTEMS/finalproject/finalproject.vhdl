@@ -185,6 +185,7 @@ begin
 								LEDG(5) <= '1';
 								LEDG(4) <= '1';
 								state <= S;
+								LEDR <= "0000000000";
 							end if;
 						end if;
 					end if;
