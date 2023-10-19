@@ -1,0 +1,28 @@
+header {
+    background-color: #00693E;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 2rem;
+}
+
+.logo {
+    height: 5rem;
+    width: auto;
+}
+
+.navbar-collapse {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav ul {
+    gap: 2rem;
+}
+
+.nav-link {
+    font-size: 1.25rem;
+    color: #FFF;
+}

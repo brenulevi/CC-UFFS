@@ -1,0 +1,109 @@
+{
+  "follow": "Follow",
+  "course": [
+    {
+      "id": "0001",
+      "name": "Ciência da Computação"
+    },
+    {
+      "id": "0002",
+      "name": "Engenharia Aeroespacial"
+    },
+    {
+      "id": "0003",
+      "name": "Engenharia Aeronáutica"
+    }
+  ],
+  "schedules": [
+    {
+      "courseId": "0001",
+      "schedule": {
+        "monday": {
+          "morning": "Organização de Computadores",
+          "afternoon": "Computação Gráfica",
+          "night": "Algebra Linear"
+        },
+        "tuesday": {
+          "morning": "Sistemas Digitais",
+          "afternoon": "Programação II",
+          "night": "Cálculo II"
+        },
+        "wednesday": {
+          "morning": "Sistemas Operacionais",
+          "afternoon": "Matemática Discreta",
+          "night": "Algorimos e Programação"
+        },
+        "thursday": {
+          "morning": "Pesquisa e Ordenação de Dados",
+          "afternoon": "Estruturas de Dados",
+          "night": "Grafos"
+        },
+        "friday": {
+          "morning": "Linguagens Formais e Autômatos",
+          "afternoon": "Cálculo Numérico",
+          "night": "TCC I"
+        }
+      }
+    },
+    {
+      "courseId": "0002",
+      "schedule": {
+        "monday": {
+          "morning": "Física Experimental I",
+          "afternoon": "Introdução à Engenharia Aeroespacial",
+          "night": "Desenho Técnico Para Engenharia I"
+        },
+        "tuesday": {
+          "morning": "Ciência dos Materiais",
+          "afternoon": "Equações Diferenciais I",
+          "night": "Introdução à Mecânica dos Sólidos"
+        },
+        "wednesday": {
+          "morning": "Sistemas de Aeronaves",
+          "afternoon": "Mecânica de Voo Aeroespacial",
+          "night": "Fundamentos de Aerodinâmica I"
+        },
+        "thursday": {
+          "morning": "Fundamentos de Termodinâmica",
+          "afternoon": "Projeto de Aeronaves",
+          "night": "Dinâmica dos Fluidos Computacional Aplicada"
+        },
+        "friday": {
+          "morning": "Dinâmica de Estruturas e Aeroelasticidade",
+          "afternoon": "Desempenho de Aeronaves",
+          "night": "Sistemas Dinâmicos"
+        }
+      }
+    },
+    {
+      "courseId": "0003",
+      "schedule": {
+        "monday": {
+          "morning": "Química Geral",
+          "afternoon": "Cálculo II",
+          "night": "Eletricidade e Magnetismo"
+        },
+        "tuesday": {
+          "morning": "Mecânica dos Sólidos I",
+          "afternoon": "Cálculo IV",
+          "night": "Aerodinâmica I"
+        },
+        "wednesday": {
+          "morning": "Elementos de Máquinas II",
+          "afternoon": "Dinâmica Estrutural",
+          "night": "Propulsão de Aeronaves"
+        },
+        "thursday": {
+          "morning": "Aeroelasticidade",
+          "afternoon": "Desempenho de Aeronaves",
+          "night": "Manutenção de Aeronaves I"
+        },
+        "friday": {
+          "morning": "Aerodinâmica Computacional",
+          "afternoon": "Projeto de Elementos Estruturais de Aeronaves II",
+          "night": "Manutenção de Aeronaves II"
+        }
+      }
+    }
+  ]
+}
