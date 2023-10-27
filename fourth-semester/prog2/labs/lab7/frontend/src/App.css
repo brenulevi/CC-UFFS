@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6,p,a {
+  font-family: "Roboto", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+section {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.container .row {
+  justify-content: center;
+}
+
+.line-separator {
+  height: 1px;
+  background-color: #e6e6e6;
+  width: 100%;
+}
+
+#dropdown-basic {
+  background-color: #00693E;
+  border-color: #00693E;
+  border-radius: 0;
+  font-size: 1.5rem;
+}
+
+#dropdown-menu {
+  width: 100%;
+}
+
+.tables {
+  padding: 0 4rem;
+  width: 100%;
+}

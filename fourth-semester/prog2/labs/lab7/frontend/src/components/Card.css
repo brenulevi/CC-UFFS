@@ -1,0 +1,16 @@
+.card {
+    background-color: #00693E;
+    color: #FFF;
+    font-weight: bold;
+
+    margin-bottom: 2rem;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.card:hover {
+    background-color: #00693E;;
+    cursor: pointer;
+}
