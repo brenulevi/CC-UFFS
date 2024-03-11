@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        printf("ERROR::ARGUMENT INVALID\n");
+        printf("ERROR::ARGUMENT IS MISSING\n");
         return -1;
     }
 
@@ -35,6 +35,7 @@ int main(int argc, char** argv)
 
 void readFile(char* str, int len)
 {
+    // ==================================================================
     FILE* table;
     table = fopen("table.dic", "r");
 
@@ -58,6 +59,8 @@ void readFile(char* str, int len)
 
     // printf("%d\n%s\n%s\n", td.id, td.logical_name, td.physical_name);
 
+    // ==================================================================
+
     FILE* att;
     att = fopen("att.dic", "r");
 
@@ -65,7 +68,7 @@ void readFile(char* str, int len)
     long int fileLen = ftell(att);
     fseek(att, 0, SEEK_SET);
 
-    struct attData *arr = malloc(fileLen);
+    struct attData *arr = (struct attData*) malloc(fileLen);
     struct attData aux;
 
     int count = 0;
@@ -79,15 +82,67 @@ void readFile(char* str, int len)
 
         if(aux.id == td.id)
         {
-            arr[count++] = aux;
-            // printf("%d\n%s\n%c\n%d\n%d\n\n", arr[count].id, arr[count].att_name, arr[count].type, arr[count].mandatory, arr[count].size);
+            arr[count] = aux;
+            // printf("%d\n%s\n%c\n%d\n%d\n\n",
+            //     arr[count].id,
+            //     arr[count].att_name,
+            //     arr[count].type,
+            //     arr[count].mandatory,
+            //     arr[count].size
+            // );
+            count++;
         }
     }
 
     fclose(att);
 
+    // ==================================================================
+
     FILE* dat;
     dat = fopen(td.physical_name, "r");
 
-    
+    printf("| ");
+    for(int i = 0; i < count; i++)
+    {
+        printf("%s | ", arr[i].att_name);
+    }
+    printf("\n---------------------------------\n| ");
+
+    while(fgetc(dat) != EOF)
+    {
+        fseek(dat, -1, SEEK_CUR);
+
+        for(int i = 0; i < count; i++)
+        {
+            switch (arr[i].type)
+            {
+            case 'I':
+                int auxi;
+                fread(&auxi, arr[i].size, 1, dat);
+                printf("%d | ", auxi);
+                break;
+            case 'D':
+                double auxd;
+                fread(&auxd, arr[i].size, 1, dat);
+                printf("%f | ", auxd);
+                break;
+            case 'S':
+                char auxs[arr[i].size];
+                fread(auxs, arr[i].size, 1, dat);
+                printf("%s | ", auxs);
+                break;
+            }
+        }
+
+        if(fgetc(dat) == EOF)
+        {
+            printf("\n");
+            break;
+        }
+        fseek(dat, -1, SEEK_CUR);
+
+        printf("\n| ");
+    }
+
+    fclose(dat);
 }
