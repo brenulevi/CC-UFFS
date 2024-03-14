@@ -101,6 +101,12 @@ void readFile(char* str, int len)
     FILE* dat;
     dat = fopen(td.physical_name, "r");
 
+    if(!dat)
+    {
+        printf("No file %s found, exiting...\n", td.physical_name);
+        return ;
+    }
+
     printf("| ");
     for(int i = 0; i < count; i++)
     {
@@ -108,10 +114,8 @@ void readFile(char* str, int len)
     }
     printf("\n---------------------------------\n| ");
 
-    while(fgetc(dat) != EOF)
+    while(1)
     {
-        fseek(dat, -1, SEEK_CUR);
-
         for(int i = 0; i < count; i++)
         {
             switch (arr[i].type)
@@ -127,9 +131,10 @@ void readFile(char* str, int len)
                 printf("%f | ", auxd);
                 break;
             case 'S':
-                char auxs[arr[i].size];
+                char* auxs = malloc(sizeof(char) * arr[i].size);
                 fread(auxs, arr[i].size, 1, dat);
                 printf("%s | ", auxs);
+                free(auxs);
                 break;
             }
         }
@@ -143,6 +148,8 @@ void readFile(char* str, int len)
 
         printf("\n| ");
     }
+
+    free(arr);
 
     fclose(dat);
 }
