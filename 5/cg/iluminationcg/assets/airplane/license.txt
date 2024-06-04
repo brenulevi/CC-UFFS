@@ -1,0 +1,8 @@
+Model Information:
+* title:	EMB-314 Super Tucano A29B
+* source:	https://sketchfab.com/3d-models/emb-314-super-tucano-a29b-ad14e4e33ac4482998784249bb11d7f8
+* author:	Gilberto (https://sketchfab.com/Gilhhjm)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
