@@ -4,15 +4,16 @@
 #include <unordered_map>
 #include <math.h>
 #include <iomanip>
-#include <set>
+#include <chrono>
 
 double bru_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m);
 double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m);
-void sort(std::vector<std::pair<int, double>>& v);
 bool findAtVector(std::vector<int>& v, int value);
 
 int main()
 {
+    auto startTime = std::chrono::high_resolution_clock::now();
+
     int dimension;
 
     std::string line;
@@ -33,13 +34,19 @@ int main()
 
     for (int i = 0; i < dimension; i++)
     {
-        int index, x, y;
+        int index;
+        float x, y;
         std::cin >> index >> x >> y;
         indices.push_back(index);
         map.insert({index, {x, y}});
     }
 
     std::cout << std::setprecision(2) << std::fixed << dyn_travelling(indices, map) << std::endl;
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duration = endTime - startTime;
+    std::cout << std::setprecision(16) << "Time spent: " << duration.count() << std::endl;
 }
 
 double bru_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m)
@@ -78,13 +85,13 @@ double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<i
 
         for (int i = 0; i < ind.size(); i++)
         {
-            if (ind[i] == v)
+            if (ind[i] == v || findAtVector(c, ind[i]))
                 continue;
 
             auto p1 = m.at(v);
             auto p2 = m.at(ind[i]);
             double dist = sqrt(pow(p2.first - p1.first, 2) + pow(p2.second - p1.second, 2));
-            if(dist < nearestDist && !findAtVector(c, ind[i]))
+            if(dist < nearestDist)
             {
                 nearestDist = dist;
                 nearestIndex = ind[i];
@@ -104,22 +111,6 @@ double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<i
     }
 
     return sum;
-}
-
-void sort(std::vector<std::pair<int, double>> &v)
-{
-    for(int i = 0; i < v.size(); i++)
-    {
-        for(int j = 0; j < v.size() - i - 1; j++)
-        {
-            if(v[j].second > v[j+1].second)
-            {
-                std::pair<int, double> p = v[j];
-                v[j] = v[j+1];
-                v[j+1] = p;
-            }
-        }
-    }
 }
 
 bool findAtVector(std::vector<int>& v, int value)
