@@ -9,7 +9,7 @@
 double bru_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m);
 double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m);
 void sort(std::vector<std::pair<int, double>>& v);
-bool findAtVector(std::vector<int> v, int value);
+bool findAtVector(std::vector<int>& v, int value);
 
 int main()
 {
@@ -66,15 +66,15 @@ double bru_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<i
 
 double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<int, int>> &m)
 {
-    std::set<int> c;
-    c.insert(ind[0]);
+    std::vector<int> c;
+    c.push_back(ind[0]);
 
     int v = ind[0];
 
     while(c.size() != ind.size())
     {
-        double nearestDist = 0;
-        std::vector<std::pair<int, double>> dists;
+        double nearestDist = INFINITY;
+        int nearestIndex = -1;
 
         for (int i = 0; i < ind.size(); i++)
         {
@@ -84,18 +84,22 @@ double dyn_travelling(std::vector<int> &ind, std::unordered_map<int, std::pair<i
             auto p1 = m.at(v);
             auto p2 = m.at(ind[i]);
             double dist = sqrt(pow(p2.first - p1.first, 2) + pow(p2.second - p1.second, 2));
-            if(dist < nearestDist)
+            if(dist < nearestDist && !findAtVector(c, ind[i]))
             {
-
+                nearestDist = dist;
+                nearestIndex = ind[i];
             }
         }
+
+        c.push_back(nearestIndex);
+        v = nearestIndex;
     }
 
     double sum = 0;
     for (int i = 0; i < c.size(); i++)
     {
-        auto p1 = m.at(*c.find(i));
-        auto p2 = (i < c.size() - 1) ? m.at(*c.find(i+1)) : m.at(*c.find(0));
+        auto p1 = m.at(c[i]);
+        auto p2 = (i < c.size() - 1) ? m.at(c[i+1]) : m.at(c[0]);
         sum += sqrt(pow(p2.first - p1.first, 2) + pow(p2.second - p1.second, 2));
     }
 
@@ -118,7 +122,7 @@ void sort(std::vector<std::pair<int, double>> &v)
     }
 }
 
-bool findAtVector(std::vector<int> v, int value)
+bool findAtVector(std::vector<int>& v, int value)
 {
     bool found = false;
     for(int i = 0; i < v.size(); i++)
