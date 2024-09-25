@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "mccompiler.h": "c",
+        "cobcompiler.h": "c"
+    }
+}
