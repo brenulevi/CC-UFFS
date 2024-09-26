@@ -5,7 +5,7 @@
 #include "dfa.h"
 #include "tape.h"
 
-void lexical(FILE *file);
+int lexical(FILE *file, struct tape *tape);
 void lexical_fillAutomata(struct dfa *automata);
 
 void cobcompiler(char *filename)
@@ -17,96 +17,95 @@ void cobcompiler(char *filename)
         return;
     }
 
+    // initialize tape
+    struct tape *tape = initializeTape();
+
     // lexical
-    lexical(file);
+    if (!lexical(file, tape))
+        return;
 
     // sintatic
     // semantic
+
+    // end
+    shutdownTape(tape);
 }
 
-void lexical(FILE *file)
+int isOperator(char c)
+{
+    if (c == '+' || c == ';' || c == '-' || c == ':' || c == '*' || c == '/' ||
+        c == '(' || c == ')' || c == '%')
+        return 1;
+    return 0;
+}
+
+int lexical(FILE *file, struct tape *tape)
 {
     // initialize automata
     struct dfa *automata = DFA_initialize();
     lexical_fillAutomata(automata);
 
-    // initialize tape
-    struct tape* tape = initializeTape();
+    int successful = 1;
 
     // read file, fill tape and symbol table
-    while(!feof(file))
+    char str[64];
+    int index = 0;
+    int line = 1;
+    while (!feof(file))
     {
+        char c = fgetc(file);
 
+        if (c == ' ')
+            continue;
+        else if (c == '\n')
+        {
+            line++;
+            continue;
+        }
+        else if (isOperator(c))
+            str[index++] = c;
+        else if (c == '>' || c == '<')
+        {
+            str[index++] = c;
+            c = fgetc(file);
+            if(c == '=')
+                str[index++] = c;
+            else
+                fseek(file, -1, SEEK_CUR);
+        }
+        else if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
+        {
+            str[index++] = c;
+            c = fgetc(file);
+            if (c != EOF)
+                fseek(file, -1, SEEK_CUR);
+            if (!isOperator(c) && c != '<' && c != '>'  && c != ' ' && c != '\n' && c != EOF)
+                continue;
+        }
+
+        str[index] = '\0';
+        index = 0;
+
+        int finalState;
+        if (DFA_testString(automata, str, &finalState))
+        {
+            // send to tape
+            addToTape(tape, finalState, str, line);
+        }
+        else
+        {
+            printf("LEXICAL ERROR [line: %d, lexem: %s]\n", line, str);
+            successful = 0;
+        }
     }
 
-    for (struct tapeElement* aux = tape->first; aux != NULL; aux = aux->next)
+    for (struct tapeElement *aux = tape->first; aux != NULL; aux = aux->next)
     {
         printf("%d %s %d\n", aux->type, aux->lexem, aux->line);
     }
 
-    // while (1)
-    // {
-    //     char s[128];
-    //     scanf("%s", s);
-    //     int finalState;
-    //     printf("%d ", DFA_testString(automata, s, &finalState));
-    //     switch (finalState)
-    //     {
-    //     case 26:
-    //         printf("%s\n", "Keyword");
-    //         break;
-    //     case 39:
-    //         printf("%s\n", "String literal");
-    //         break;
-    //     case 27:
-    //         printf("%s\n", "Number literal");
-    //         break;
-    //     case 37:
-    //         printf("%s\n", "Plus");
-    //         break;
-    //     case 33:
-    //         printf("%s\n", "(");
-    //         break;
-    //     case 34:
-    //         printf("%s\n", ")");
-    //         break;
-    //     case 29:
-    //         printf("%s\n", "Greater");
-    //         break;
-    //     case 40:
-    //         printf("%s\n", "Greater equal");
-    //         break;
-    //     case 30:
-    //         printf("%s\n", "Semicolon");
-    //         break;
-    //     case 31:
-    //         printf("%s\n", "Less");
-    //         break;
-    //     case 32:
-    //         printf("%s\n", "Less equal");
-    //         break;
-    //     case 35:
-    //         printf("%s\n", "Equal");
-    //         break;
-    //     case 36:
-    //         printf("%s\n", "Porcent");
-    //         break;
-    //     case 19:
-    //         printf("%s\n", "Minus");
-    //         break;
-    //     case 20:
-    //         printf("%s\n", "Multiply");
-    //         break;
-    //     case 41:
-    //         printf("%s\n", "Division");
-    //         break;
-    //     }
-
-    //     if (finalState == 28 || ((finalState >= 1 && finalState <= 18) && (finalState >= 21 && finalState <= 25)))
-    //         printf("%s\n", "Identifier");
-    // }
-
     DFA_shutdown(automata);
+    return successful;
 }
 
 void lexical_fillAutomata(struct dfa *automata)

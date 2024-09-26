@@ -1,1 +1,14 @@
 var a : int;
+var b : int;
+var d : int;
+
+begin program $
+    a <= 10;
+    b <= 3;
+
+    var c:int <= a+b;
+
+    if(a<b) then
+        d <= a*c / e;
+    end if
+end program
