@@ -1,10 +1,12 @@
 #include "cobcompiler.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "dfa.h"
+#include "tape.h"
 
 void lexical(FILE *file);
-void lexical_initializeAutomata(struct dfa* automata);
+void lexical_fillAutomata(struct dfa *automata);
 
 void cobcompiler(char *filename)
 {
@@ -25,30 +27,94 @@ void cobcompiler(char *filename)
 void lexical(FILE *file)
 {
     // initialize automata
-   struct dfa *automata = DFA_initialize();
-   lexical_initializeAutomata(automata);
+    struct dfa *automata = DFA_initialize();
+    lexical_fillAutomata(automata);
 
-    while (1)
+    // initialize tape
+    struct tape* tape = initializeTape();
+
+    // read file, fill tape and symbol table
+    while(!feof(file))
     {
-        char s[128];
-        scanf("%s", s);
-        int *finalState;
-        printf("%d ", DFA_testString(automata, s, finalState));
-        if (*finalState == 26)
-            printf("%s\n", "Keyword");
-        else if (*finalState == 28 || (*finalState >= 1 && *finalState <= 25))
-            printf("%s\n", "Identifier");
+
     }
+
+    for (struct tapeElement* aux = tape->first; aux != NULL; aux = aux->next)
+    {
+        printf("%d %s %d\n", aux->type, aux->lexem, aux->line);
+    }
+
+    // while (1)
+    // {
+    //     char s[128];
+    //     scanf("%s", s);
+    //     int finalState;
+    //     printf("%d ", DFA_testString(automata, s, &finalState));
+    //     switch (finalState)
+    //     {
+    //     case 26:
+    //         printf("%s\n", "Keyword");
+    //         break;
+    //     case 39:
+    //         printf("%s\n", "String literal");
+    //         break;
+    //     case 27:
+    //         printf("%s\n", "Number literal");
+    //         break;
+    //     case 37:
+    //         printf("%s\n", "Plus");
+    //         break;
+    //     case 33:
+    //         printf("%s\n", "(");
+    //         break;
+    //     case 34:
+    //         printf("%s\n", ")");
+    //         break;
+    //     case 29:
+    //         printf("%s\n", "Greater");
+    //         break;
+    //     case 40:
+    //         printf("%s\n", "Greater equal");
+    //         break;
+    //     case 30:
+    //         printf("%s\n", "Semicolon");
+    //         break;
+    //     case 31:
+    //         printf("%s\n", "Less");
+    //         break;
+    //     case 32:
+    //         printf("%s\n", "Less equal");
+    //         break;
+    //     case 35:
+    //         printf("%s\n", "Equal");
+    //         break;
+    //     case 36:
+    //         printf("%s\n", "Porcent");
+    //         break;
+    //     case 19:
+    //         printf("%s\n", "Minus");
+    //         break;
+    //     case 20:
+    //         printf("%s\n", "Multiply");
+    //         break;
+    //     case 41:
+    //         printf("%s\n", "Division");
+    //         break;
+    //     }
+
+    //     if (finalState == 28 || ((finalState >= 1 && finalState <= 18) && (finalState >= 21 && finalState <= 25)))
+    //         printf("%s\n", "Identifier");
+    // }
 
     DFA_shutdown(automata);
 }
 
-void lexical_initializeAutomata(struct dfa* automata)
+void lexical_fillAutomata(struct dfa *automata)
 {
-    for (int i = 0; i < 41; i++)
+    for (int i = 0; i < 43; i++)
         DFA_addState(automata, i);
 
-    for(int i = 1; i < 26; i++)
+    for (int i = 1; i < 26; i++)
         DFA_addFinalState(automata, i);
     DFA_addFinalState(automata, 26);
     DFA_addFinalState(automata, 34);
@@ -64,6 +130,10 @@ void lexical_initializeAutomata(struct dfa* automata)
     DFA_addFinalState(automata, 32);
     DFA_addFinalState(automata, 35);
     DFA_addFinalState(automata, 36);
+    DFA_addFinalState(automata, 19);
+    DFA_addFinalState(automata, 20);
+    DFA_addFinalState(automata, 41);
+    DFA_addFinalState(automata, 42);
 
     DFA_addInitialState(automata, 0);
 
@@ -127,6 +197,9 @@ void lexical_initializeAutomata(struct dfa* automata)
         {
             DFA_addTransition(automata, i, 28, j);
             DFA_addTransition(automata, 28, 28, j);
+            DFA_addTransition(automata, 38, 38, j);
+            DFA_addTransition(automata, 0, 27, j);
+            DFA_addTransition(automata, 27, 27, j);
         }
 
         // add '_' to all keyword states to 28
@@ -143,6 +216,9 @@ void lexical_initializeAutomata(struct dfa* automata)
         DFA_addTransition(automata, 28, 28, i);
         DFA_addTransition(automata, 28, 28, i + 32);
 
+        DFA_addTransition(automata, 38, 38, i);
+        DFA_addTransition(automata, 38, 38, i + 32);
+
         // filter all keyword states that begin with this letters
         if (i + 32 == 'v' || i + 32 == 'i' || i + 32 == 'b' || i + 32 == 'p' || i + 32 == 't' || i + 32 == 'e')
             continue;
@@ -153,4 +229,24 @@ void lexical_initializeAutomata(struct dfa* automata)
 
     // auto transition state 28 via '_'
     DFA_addTransition(automata, 28, 28, '_');
+
+    // add operations
+    DFA_addTransition(automata, 0, 29, '>');
+    DFA_addTransition(automata, 29, 40, '=');
+    DFA_addTransition(automata, 0, 30, ';');
+    DFA_addTransition(automata, 0, 42, ':');
+    DFA_addTransition(automata, 0, 31, '<');
+    DFA_addTransition(automata, 31, 32, '=');
+    DFA_addTransition(automata, 0, 35, '=');
+    DFA_addTransition(automata, 0, 36, '%');
+    DFA_addTransition(automata, 0, 37, '+');
+    DFA_addTransition(automata, 0, 33, '(');
+    DFA_addTransition(automata, 0, 34, ')');
+    DFA_addTransition(automata, 0, 19, '-');
+    DFA_addTransition(automata, 0, 20, '*');
+    DFA_addTransition(automata, 0, 41, '/');
+
+    // add literals
+    DFA_addTransition(automata, 0, 38, '"');
+    DFA_addTransition(automata, 38, 39, '"');
 }

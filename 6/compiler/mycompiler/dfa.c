@@ -54,7 +54,6 @@ void DFA_addFinalState(struct dfa *a, int state)
 int DFA_testString(struct dfa *a, char *string, int *finalstate)
 {
     int currentState = a->q;
-
     for (int cursor = 0; cursor < strlen(string); cursor++)
     {
         char symbol = string[cursor];
