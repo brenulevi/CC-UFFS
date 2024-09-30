@@ -2,7 +2,7 @@ var a : int;
 var b : int;
 var d : int;
 
-begin program $
+begin program
     a <= 10;
     b <= 3;
 

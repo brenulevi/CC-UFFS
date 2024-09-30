@@ -82,6 +82,10 @@ int lexical(FILE *file, struct tape *tape)
             if (!isOperator(c) && c != '<' && c != '>'  && c != ' ' && c != '\n' && c != EOF)
                 continue;
         }
+        else
+        {
+            str[index++] = c;
+        }
 
         str[index] = '\0';
         index = 0;
@@ -98,11 +102,13 @@ int lexical(FILE *file, struct tape *tape)
             successful = 0;
         }
     }
+    
+    addToTape(tape, 50, "$", line);
 
-    for (struct tapeElement *aux = tape->first; aux != NULL; aux = aux->next)
-    {
-        printf("%d %s %d\n", aux->type, aux->lexem, aux->line);
-    }
+    // for (struct tapeElement *aux = tape->first; aux != NULL; aux = aux->next)
+    // {
+    //     printf("%d %s %d\n", aux->type, aux->lexem, aux->line);
+    // }
 
     DFA_shutdown(automata);
     return successful;

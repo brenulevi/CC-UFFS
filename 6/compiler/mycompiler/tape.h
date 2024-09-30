@@ -6,6 +6,7 @@ struct tapeElement
     char lexem[64];
     int line;
     struct tapeElement *next;
+    struct tapeElement *prev;
 };
 
 struct tape
